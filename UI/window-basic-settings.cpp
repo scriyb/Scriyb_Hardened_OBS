@@ -750,7 +750,7 @@ void OBSBasicSettings::SaveSpinBox(QSpinBox *widget, const char *section,
 void OBSBasicSettings::LoadServiceTypes()
 {
 	const char    *type;
-	size_t        idx = 0;
+	size_t        idx = 1;
 
 	while (obs_enum_service_types(idx++, &type)) {
 		const char *name = obs_service_get_display_name(type);
@@ -2660,7 +2660,8 @@ void OBSBasicSettings::SaveGeneralSettings()
 
 void OBSBasicSettings::SaveStream1Settings()
 {
-	QString streamType = GetComboData(ui->streamType);
+	/* QString streamType = GetComboData(ui->streamType); Commenting to Check custom Service */
+	QString streamType = "rtmp_custom";
 
 	obs_service_t *oldService = main->GetService();
 	obs_data_t *hotkeyData = obs_hotkeys_save_service(oldService);

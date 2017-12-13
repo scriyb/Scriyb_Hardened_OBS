@@ -1,0 +1,143 @@
+window-basic-auto-config.cpp:	wiz->type = AutoConfig::Type::Streaming;
+window-basic-auto-config.cpp:	wiz->type = AutoConfig::Type::Recording;
+window-basic-auto-config.cpp:	return wiz->type == AutoConfig::Type::Recording
+window-basic-auto-config.cpp:	wiz->baseResolutionCX = encRes >> 16;
+window-basic-auto-config.cpp:	wiz->baseResolutionCY = encRes & 0xFFFF;
+window-basic-auto-config.cpp:	wiz->fpsType = (AutoConfig::FPSType)ui->fps->currentData().toInt();
+window-basic-auto-config.cpp:	switch (wiz->fpsType) {
+window-basic-auto-config.cpp:		wiz->specificFPSNum = 0;
+window-basic-auto-config.cpp:		wiz->specificFPSDen = 0;
+window-basic-auto-config.cpp:		wiz->preferHighFPS = true;
+window-basic-auto-config.cpp:		wiz->specificFPSNum = 0;
+window-basic-auto-config.cpp:		wiz->specificFPSDen = 0;
+window-basic-auto-config.cpp:		wiz->preferHighFPS = false;
+window-basic-auto-config.cpp:		wiz->specificFPSNum = ovi.fps_num;
+window-basic-auto-config.cpp:		wiz->specificFPSDen = ovi.fps_den;
+window-basic-auto-config.cpp:		wiz->preferHighFPS = false;
+window-basic-auto-config.cpp:		wiz->specificFPSNum = 30;
+window-basic-auto-config.cpp:		wiz->specificFPSDen = 1;
+window-basic-auto-config.cpp:		wiz->preferHighFPS = false;
+window-basic-auto-config.cpp:		wiz->specificFPSNum = 60;
+window-basic-auto-config.cpp:		wiz->specificFPSDen = 1;
+window-basic-auto-config.cpp:		wiz->preferHighFPS = false;
+window-basic-auto-config.cpp:	wiz->customServer = ui->streamType->currentIndex() == 1;
+window-basic-auto-config.cpp:	const char *serverType = wiz->customServer
+window-basic-auto-config.cpp:	if (!wiz->customServer) {
+window-basic-auto-config.cpp:		wiz->idealBitrate = bitrate;
+window-basic-auto-config.cpp:	if (wiz->customServer) {
+window-basic-auto-config.cpp:		wiz->server = wiz->serverName = QT_TO_UTF8(server);
+window-basic-auto-config.cpp:		wiz->serverName = QT_TO_UTF8(ui->server->currentText());
+window-basic-auto-config.cpp:		wiz->server = QT_TO_UTF8(ui->server->currentData().toString());
+window-basic-auto-config.cpp:	wiz->bandwidthTest = ui->doBandwidthTest->isChecked();
+window-basic-auto-config.cpp:	wiz->startingBitrate = (int)obs_data_get_int(settings, "bitrate");
+window-basic-auto-config.cpp:	wiz->idealBitrate = wiz->startingBitrate;
+window-basic-auto-config.cpp:	wiz->regionUS = ui->regionUS->isChecked();
+window-basic-auto-config.cpp:	wiz->regionEU = ui->regionEU->isChecked();
+window-basic-auto-config.cpp:	wiz->regionAsia = ui->regionAsia->isChecked();
+window-basic-auto-config.cpp:	wiz->regionOther = ui->regionOther->isChecked();
+window-basic-auto-config.cpp:	wiz->serviceName = QT_TO_UTF8(ui->service->currentText());
+window-basic-auto-config.cpp:		wiz->preferHardware = ui->preferHardware->isChecked();
+window-basic-auto-config.cpp:	wiz->key = QT_TO_UTF8(ui->key->text());
+window-basic-auto-config.cpp:	if (!wiz->customServer) {
+window-basic-auto-config.cpp:		if (wiz->serviceName == "Twitch")
+window-basic-auto-config.cpp:			wiz->service = AutoConfig::Service::Twitch;
+window-basic-auto-config.cpp:		else if (wiz->serviceName == "Smashcast")
+window-basic-auto-config.cpp:			wiz->service = AutoConfig::Service::Smashcast;
+window-basic-auto-config.cpp:			wiz->service = AutoConfig::Service::Other;
+window-basic-auto-config.cpp:		wiz->service = AutoConfig::Service::Other;
+window-basic-auto-config.cpp:	if (wiz->service != AutoConfig::Service::Twitch && wiz->bandwidthTest) {
+window-basic-auto-config.cpp:	if (service == "Twitch" && wiz->twitchAuto)
+window-basic-auto-config.cpp:	wiz->testRegions = regionBased && testBandwidth;
+window-basic-auto-config.cpp:			ready = !wiz->testRegions ||
+window-basic-auto-config-test.cpp:	obs_data_set_string(settings, "service", wiz->serviceName.c_str());
+window-basic-auto-config-test.cpp:		if (wiz->CanTestServer(name)) {
+window-basic-auto-config-test.cpp:	const char *serverType = wiz->customServer
+window-basic-auto-config-test.cpp:	std::string key = wiz->key;
+window-basic-auto-config-test.cpp:	if (wiz->service == AutoConfig::Service::Twitch) {
+window-basic-auto-config-test.cpp:			wiz->serviceName.c_str());
+window-basic-auto-config-test.cpp:	obs_data_set_int(vencoder_settings, "bitrate", wiz->startingBitrate);
+window-basic-auto-config-test.cpp:	if (wiz->customServer)
+window-basic-auto-config-test.cpp:		servers.emplace_back(wiz->server.c_str(), wiz->server.c_str());
+window-basic-auto-config-test.cpp:	if (servers.size() < 3 || wiz->serviceName == "Mixer.com - FTL") {
+window-basic-auto-config-test.cpp:	} else if (wiz->service == AutoConfig::Service::Twitch &&
+window-basic-auto-config-test.cpp:	           wiz->twitchAuto) {
+window-basic-auto-config-test.cpp:		    (int)bitrate < (wiz->startingBitrate * 75 / 100)) {
+window-basic-auto-config-test.cpp:			server.bitrate = wiz->startingBitrate;
+window-basic-auto-config-test.cpp:	wiz->server = bestServer;
+window-basic-auto-config-test.cpp:	wiz->serverName = bestServerName;
+window-basic-auto-config-test.cpp:	wiz->idealBitrate = bestBitrate;
+window-basic-auto-config-test.cpp:	if (wiz->type != AutoConfig::Type::Recording) {
+window-basic-auto-config-test.cpp:				wiz->idealBitrate);
+window-basic-auto-config-test.cpp:	int baseCX = wiz->baseResolutionCX;
+window-basic-auto-config-test.cpp:	int baseCY = wiz->baseResolutionCY;
+window-basic-auto-config-test.cpp:			fps_num = wiz->specificFPSNum;
+window-basic-auto-config-test.cpp:			fps_den = wiz->specificFPSDen;
+window-basic-auto-config-test.cpp:		if (!force && wiz->type != AutoConfig::Type::Recording) {
+window-basic-auto-config-test.cpp:			if (est > wiz->idealBitrate)
+window-basic-auto-config-test.cpp:	if (wiz->specificFPSNum && wiz->specificFPSDen) {
+window-basic-auto-config-test.cpp:	if (!wiz->specificFPSNum && wiz->preferHighFPS && results.size() > 1) {
+window-basic-auto-config-test.cpp:	wiz->idealResolutionCX = result.cx;
+window-basic-auto-config-test.cpp:	wiz->idealResolutionCY = result.cy;
+window-basic-auto-config-test.cpp:	wiz->idealFPSNum = result.fps_num;
+window-basic-auto-config-test.cpp:	wiz->idealFPSDen = result.fps_den;
+window-basic-auto-config-test.cpp:	if (wiz->streamingEncoder != AutoConfig::Encoder::x264) {
+window-basic-auto-config-test.cpp:	if (wiz->idealBitrate > upperBitrate)
+window-basic-auto-config-test.cpp:		wiz->idealBitrate = upperBitrate;
+window-basic-auto-config-test.cpp:	int baseCX = wiz->baseResolutionCX;
+window-basic-auto-config-test.cpp:	int baseCY = wiz->baseResolutionCY;
+window-basic-auto-config-test.cpp:			fps_num = wiz->specificFPSNum;
+window-basic-auto-config-test.cpp:			fps_den = wiz->specificFPSDen;
+window-basic-auto-config-test.cpp:		if (wiz->type == AutoConfig::Type::Recording)
+window-basic-auto-config-test.cpp:		if (force || wiz->idealBitrate >= minBitrate)
+window-basic-auto-config-test.cpp:	if (wiz->specificFPSNum && wiz->specificFPSDen) {
+window-basic-auto-config-test.cpp:	if (!wiz->specificFPSNum && wiz->preferHighFPS && results.size() > 1) {
+window-basic-auto-config-test.cpp:	wiz->idealResolutionCX = result.cx;
+window-basic-auto-config-test.cpp:	wiz->idealResolutionCY = result.cy;
+window-basic-auto-config-test.cpp:	wiz->idealFPSNum = result.fps_num;
+window-basic-auto-config-test.cpp:	wiz->idealFPSDen = result.fps_den;
+window-basic-auto-config-test.cpp:	bool preferHardware = wiz->preferHardware;
+window-basic-auto-config-test.cpp:		if (!preferHardware || !wiz->hardwareEncodingAvailable) {
+window-basic-auto-config-test.cpp:	if (preferHardware && !softwareTested && wiz->hardwareEncodingAvailable)
+window-basic-auto-config-test.cpp:		if (wiz->nvencAvailable)
+window-basic-auto-config-test.cpp:			wiz->streamingEncoder = AutoConfig::Encoder::NVENC;
+window-basic-auto-config-test.cpp:		else if (wiz->qsvAvailable)
+window-basic-auto-config-test.cpp:			wiz->streamingEncoder = AutoConfig::Encoder::QSV;
+window-basic-auto-config-test.cpp:			wiz->streamingEncoder = AutoConfig::Encoder::AMD;
+window-basic-auto-config-test.cpp:		wiz->streamingEncoder = AutoConfig::Encoder::x264;
+window-basic-auto-config-test.cpp:	if (!wiz->hardwareEncodingAvailable && !softwareTested) {
+window-basic-auto-config-test.cpp:	if (wiz->type == AutoConfig::Type::Recording &&
+window-basic-auto-config-test.cpp:	    wiz->hardwareEncodingAvailable)
+window-basic-auto-config-test.cpp:	wiz->recordingQuality = AutoConfig::Quality::High;
+window-basic-auto-config-test.cpp:	bool recordingOnly = wiz->type == AutoConfig::Type::Recording;
+window-basic-auto-config-test.cpp:	if (wiz->hardwareEncodingAvailable) {
+window-basic-auto-config-test.cpp:		if (wiz->nvencAvailable)
+window-basic-auto-config-test.cpp:			wiz->recordingEncoder = AutoConfig::Encoder::NVENC;
+window-basic-auto-config-test.cpp:		else if (wiz->qsvAvailable)
+window-basic-auto-config-test.cpp:			wiz->recordingEncoder = AutoConfig::Encoder::QSV;
+window-basic-auto-config-test.cpp:			wiz->recordingEncoder = AutoConfig::Encoder::AMD;
+window-basic-auto-config-test.cpp:		wiz->recordingEncoder = AutoConfig::Encoder::x264;
+window-basic-auto-config-test.cpp:	if (wiz->recordingEncoder != AutoConfig::Encoder::NVENC) {
+window-basic-auto-config-test.cpp:			wiz->recordingEncoder = AutoConfig::Encoder::Stream;
+window-basic-auto-config-test.cpp:			wiz->recordingQuality = AutoConfig::Quality::Stream;
+window-basic-auto-config-test.cpp:	if (wiz->type != AutoConfig::Type::Recording) {
+window-basic-auto-config-test.cpp:		const char *serverType = wiz->customServer
+window-basic-auto-config-test.cpp:				wiz->idealBitrate);
+window-basic-auto-config-test.cpp:				wiz->serviceName.c_str());
+window-basic-auto-config-test.cpp:		wiz->idealBitrate = (int)obs_data_get_int(vencoder_settings,
+window-basic-auto-config-test.cpp:		if (!wiz->customServer)
+window-basic-auto-config-test.cpp:				new QLabel(wiz->serviceName.c_str(),
+window-basic-auto-config-test.cpp:			new QLabel(wiz->serverName.c_str(), ui->finishPage));
+window-basic-auto-config-test.cpp:			new QLabel(QString::number(wiz->idealBitrate),
+window-basic-auto-config-test.cpp:			new QLabel(encName(wiz->streamingEncoder),
+window-basic-auto-config-test.cpp:			QString::number(wiz->baseResolutionCX),
+window-basic-auto-config-test.cpp:			QString::number(wiz->baseResolutionCY));
+window-basic-auto-config-test.cpp:			QString::number(wiz->idealResolutionCX),
+window-basic-auto-config-test.cpp:			QString::number(wiz->idealResolutionCY));
+window-basic-auto-config-test.cpp:	if (wiz->recordingEncoder != AutoConfig::Encoder::Stream ||
+window-basic-auto-config-test.cpp:	    wiz->recordingQuality != AutoConfig::Quality::Stream)
+window-basic-auto-config-test.cpp:			new QLabel(encName(wiz->recordingEncoder),
+window-basic-auto-config-test.cpp:	switch (wiz->recordingQuality) {
+window-basic-auto-config-test.cpp:		(long double)wiz->idealFPSNum / (long double)wiz->idealFPSDen;
+window-basic-auto-config-test.cpp:	QString fpsStr = (wiz->idealFPSDen > 1)
+window-basic-auto-config-test.cpp:		if (wiz->type == AutoConfig::Type::Recording) {
+window-basic-auto-config-test.cpp:		} else if (!wiz->bandwidthTest) {

@@ -275,7 +275,7 @@ bool AutoConfigStreamPage::validatePage()
 	OBSData service_settings = obs_data_create();
 	obs_data_release(service_settings);
 
-	wiz->customServer = ui->streamType->currentIndex() == 1;
+	wiz->customServer = 1;
 
 	const char *serverType = wiz->customServer
 		? "rtmp_custom"
@@ -368,7 +368,7 @@ void AutoConfigStreamPage::ServiceChanged()
 	bool regionBased = service == "Twitch" ||
 	                   service == "Smashcast";
 	bool testBandwidth = ui->doBandwidthTest->isChecked();
-	bool custom = ui->streamType->currentIndex() == 1;
+	bool custom = 1;
 
 	/* Test three closest servers if "Auto" is available for Twitch */
 	if (service == "Twitch" && wiz->twitchAuto)
@@ -414,7 +414,7 @@ void AutoConfigStreamPage::ServiceChanged()
 
 void AutoConfigStreamPage::UpdateKeyLink()
 {
-	bool custom = ui->streamType->currentIndex() == 1;
+	bool custom = 1;
 	QString serviceName = ui->service->currentText();
 
 	if (custom)
@@ -526,7 +526,7 @@ void AutoConfigStreamPage::UpdateCompleted()
 	if (ui->key->text().isEmpty()) {
 		ready = false;
 	} else {
-		bool custom = ui->streamType->currentIndex() == 1;
+		bool custom = 1;
 		if (custom) {
 			ready = !ui->customServer->text().isEmpty();
 		} else {
