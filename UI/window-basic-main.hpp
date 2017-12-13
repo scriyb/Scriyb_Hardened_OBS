@@ -217,9 +217,6 @@ private:
 
 	bool          QueryRemoveSource(obs_source_t *source);
 
-	void          TimedCheckForUpdates();
-	void          CheckForUpdates(bool manualUpdate);
-
 	void GetFPSCommon(uint32_t &num, uint32_t &den) const;
 	void GetFPSInteger(uint32_t &num, uint32_t &den) const;
 	void GetFPSFraction(uint32_t &num, uint32_t &den) const;
@@ -581,7 +578,6 @@ private slots:
 	void on_actionUploadCurrentLog_triggered();
 	void on_actionUploadLastLog_triggered();
 	void on_actionViewCurrentLog_triggered();
-	void on_actionCheckForUpdates_triggered();
 
 	void on_actionEditTransform_triggered();
 	void on_actionCopyTransform_triggered();

@@ -134,10 +134,7 @@
      <addaction name="actionUploadLastLog"/>
      <addaction name="actionViewCurrentLog"/>
     </widget>
-    <addaction name="actionWebsite"/>
-    <addaction name="separator"/>
     <addaction name="menuLogFiles"/>
-    <addaction name="actionCheckForUpdates"/>
    </widget>
    <widget class="QMenu" name="menuBasic_MainMenu_Edit">
     <property name="title">
@@ -1333,11 +1330,6 @@
     <string>Ctrl+End</string>
    </property>
   </action>
-  <action name="actionCheckForUpdates">
-   <property name="text">
-    <string>Basic.MainMenu.Help.CheckForUpdates</string>
-   </property>
-  </action>
   <action name="actionInteract">
    <property name="text">
     <string>Interact</string>
@@ -1346,11 +1338,6 @@
   <action name="actionAdvAudioProperties">
    <property name="text">
     <string>Basic.MainMenu.Edit.AdvAudio</string>
-   </property>
-  </action>
-  <action name="actionWebsite">
-   <property name="text">
-    <string>Basic.MainMenu.Help.Website</string>
    </property>
   </action>
   <action name="actionNewSceneCollection">
