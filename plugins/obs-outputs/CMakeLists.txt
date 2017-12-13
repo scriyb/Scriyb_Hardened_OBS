@@ -3,9 +3,27 @@ project(obs-outputs)
 option(USE_SSL "Enable rtmps support with OpenSSL" OFF)
 
 if (USE_SSL)
-	find_package(SSL QUIET)
-	find_package(ZLIB QUIET)
+    find_package(OPENSSL)
+    #find_package(SSL)
+    find_package(ZLIB)
 endif()
+
+message(STATUS "SSL OPENSSL_FOUND: ${OPENSSL_FOUND}")
+message(STATUS "SSL ZLIB_FOUND: ${ZLIB_FOUND}")
+message(STATUS "SSL OPENSSL_INCLUDE_DIR: ${OPENSSL_INCLUDE_DIR}")
+
+# Map OPENSSL to SSL
+set(SSL_FOUND
+    ${OPENSSL_FOUND}
+    )
+set (SSL_INCLUDE_DIRS
+    ${OPENSSL_INCLUDE_DIR}
+    )
+set (SSL_LIBRARIES
+    ${OPENSSL_SSL_LIBRARY}
+    ${OPENSSL_CRYPTO_LIBRARY}
+    )
+# END Windows OpenSSL fix
 
 if (SSL_FOUND AND ZLIB_FOUND)
 	add_definitions(-DCRYPTO -DUSE_OPENSSL)

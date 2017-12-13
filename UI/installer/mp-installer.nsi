@@ -359,13 +359,6 @@ SectionEnd
 ; Modern install component descriptions
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
 	!insertmacro MUI_DESCRIPTION_TEXT ${SecCore} "Core OBS Studio files"
-	!ifdef FULL
-		!insertmacro MUI_DESCRIPTION_TEXT ${SecPlugins} "Optional Plugins"
-		!insertmacro MUI_DESCRIPTION_TEXT ${SecPlugins_Browser} "Browser plugin (a source you can add to your scenes that displays web pages)"
-		!ifdef REALSENSE_PLUGIN
-			!insertmacro MUI_DESCRIPTION_TEXT ${SecPlugins_Realsense} "Plugin for Realsense cameras"
-		!endif
-	!endif
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ;Uninstall section
