@@ -1508,7 +1508,6 @@ void OBSBasic::OBSInit()
 		disableSaving++;
 	}
 
-	TimedCheckForUpdates();
 	loaded = true;
 
 	previewEnabled = config_get_bool(App()->GlobalConfig(),
@@ -4234,11 +4233,6 @@ void OBSBasic::on_actionViewCurrentLog_triggered()
 
 	QUrl url = QUrl::fromLocalFile(QT_UTF8(path.c_str()));
 	QDesktopServices::openUrl(url);
-}
-
-void OBSBasic::on_actionCheckForUpdates_triggered()
-{
-	CheckForUpdates(true);
 }
 
 void OBSBasic::logUploadFinished(const QString &text, const QString &error)
