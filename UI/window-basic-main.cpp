@@ -1855,9 +1855,6 @@ void OBSBasic::ClearHotkeys()
 
 OBSBasic::~OBSBasic()
 {
-	if (updateCheckThread && updateCheckThread->isRunning())
-		updateCheckThread->wait();
-
 	delete programOptions;
 	delete program;
 
@@ -2596,64 +2593,6 @@ bool OBSBasic::QueryRemoveSource(obs_source_t *source)
 	return Yes == remove_source.clickedButton();
 }
 
-#define UPDATE_CHECK_INTERVAL (60*60*24*4) /* 4 days */
-
-#ifdef UPDATE_SPARKLE
-void init_sparkle_updater(bool update_to_undeployed);
-void trigger_sparkle_update();
-#endif
-
-void OBSBasic::TimedCheckForUpdates()
-{
-	if (!config_get_bool(App()->GlobalConfig(), "General",
-				"EnableAutoUpdates"))
-		return;
-
-#ifdef UPDATE_SPARKLE
-	init_sparkle_updater(config_get_bool(App()->GlobalConfig(), "General",
-				"UpdateToUndeployed"));
-#elif ENABLE_WIN_UPDATER
-	long long lastUpdate = config_get_int(App()->GlobalConfig(), "General",
-			"LastUpdateCheck");
-	uint32_t lastVersion = config_get_int(App()->GlobalConfig(), "General",
-			"LastVersion");
-
-	if (lastVersion < LIBOBS_API_VER) {
-		lastUpdate = 0;
-		config_set_int(App()->GlobalConfig(), "General",
-				"LastUpdateCheck", 0);
-	}
-
-	long long t    = (long long)time(nullptr);
-	long long secs = t - lastUpdate;
-
-	if (secs > UPDATE_CHECK_INTERVAL)
-		CheckForUpdates(false);
-#endif
-}
-
-void OBSBasic::CheckForUpdates(bool manualUpdate)
-{
-#ifdef UPDATE_SPARKLE
-	trigger_sparkle_update();
-#elif ENABLE_WIN_UPDATER
-	ui->actionCheckForUpdates->setEnabled(false);
-
-	if (updateCheckThread && updateCheckThread->isRunning())
-		return;
-
-	updateCheckThread = new AutoUpdateThread(manualUpdate);
-	updateCheckThread->start();
-#endif
-
-	UNUSED_PARAMETER(manualUpdate);
-}
-
-void OBSBasic::updateCheckFinished()
-{
-	ui->actionCheckForUpdates->setEnabled(true);
-}
-
 void OBSBasic::DuplicateSelectedScene()
 {
 	OBSScene curScene = GetCurrentScene();
@@ -3374,8 +3313,6 @@ void OBSBasic::closeEvent(QCloseEvent *event)
 
 	blog(LOG_INFO, SHUTDOWN_SEPARATOR);
 
-	if (updateCheckThread)
-		updateCheckThread->wait();
 	if (logUploadThread)
 		logUploadThread->wait();
 

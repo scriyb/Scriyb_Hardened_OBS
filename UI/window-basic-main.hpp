@@ -135,7 +135,6 @@ private:
 	const char *copyFiltersString;
 	bool copyVisible = true;
 
-	QPointer<QThread> updateCheckThread;
 	QPointer<QThread> logUploadThread;
 
 	QPointer<OBSBasicInteraction> interaction;
@@ -673,8 +672,6 @@ private slots:
 	void on_lockUI_toggled(bool lock);
 
 	void logUploadFinished(const QString &text, const QString &error);
-
-	void updateCheckFinished();
 
 	void AddSourceFromAction();
 
