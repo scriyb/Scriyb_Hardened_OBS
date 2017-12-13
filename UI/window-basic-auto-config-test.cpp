@@ -189,7 +189,7 @@ void AutoConfigTestPage::TestBandwidthThread()
 			"test_x264", nullptr, nullptr);
 	OBSEncoder aencoder = obs_audio_encoder_create("ffmpeg_aac",
 			"test_aac", nullptr, 0, nullptr);
-	OBSService service = obs_service_create(serverType,
+	OBSService service = obs_service_create("rtmp_custom",
 			"test_service", nullptr, nullptr);
 	obs_encoder_release(vencoder);
 	obs_encoder_release(aencoder);
@@ -947,7 +947,7 @@ void AutoConfigTestPage::FinalizeResults()
 			? "rtmp_custom"
 			: "rtmp_common";
 
-		OBSService service = obs_service_create(serverType,
+		OBSService service = obs_service_create("rtmp_custom",
 				"temp_service", nullptr, nullptr);
 		obs_service_release(service);
 

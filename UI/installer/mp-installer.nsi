@@ -6,13 +6,15 @@ Unicode true
 !define APPNAME "OBS Studio"
 
 !ifndef APPVERSION
-!define APPVERSION "17.0.2"
-!define SHORTVERSION "17.0.2"
+!define APPVERSION "20.1.3"
+!define SHORTVERSION "20.1.3"
 !endif
 
 !define APPNAMEANDVERSION "OBS Studio ${SHORTVERSION}"
 ; !define FULL
 !define REALSENSE_PLUGIN
+
+
 
 ; Additional script dependencies
 !include WinVer.nsh
@@ -45,7 +47,7 @@ RequestExecutionLevel admin
 !define MUI_PAGE_CUSTOMFUNCTION_LEAVE PreReqCheck
 
 !insertmacro MUI_PAGE_WELCOME
-!insertmacro MUI_PAGE_LICENSE "new\core\data\obs-studio\license\gplv2.txt"
+!insertmacro MUI_PAGE_LICENSE "C:\Users\sragavendraganesh\obs-studio\UI\data\license\gplv2.txt"
 !insertmacro MUI_PAGE_DIRECTORY
 !ifdef FULL
 	!insertmacro MUI_PAGE_COMPONENTS
@@ -101,30 +103,35 @@ Function PreReqCheck
 
 	; 32 bit Visual Studio 2013 runtime check
 	ClearErrors
-	GetDLLVersion "MSVCR120.DLL" $R0 $R1
-	GetDLLVersion "MSVCP120.DLL" $R0 $R1
+	ReadRegDword $R1 HKLM "SOFTWARE\Wow6432Node\Microsoft\VisualStudio\12.0\VC\Runtimes\x86" "Installed"
 	IfErrors vs2013Missing vs2013OK1
+	SetOutPath $INSTDIR\Prerequisites
 	vs2013Missing:
 		MessageBox MB_YESNO|MB_ICONEXCLAMATION "Your system is missing runtime components that ${APPNAME} requires. Please make sure to install both vcredist_x64 and vcredist_x86. Would you like to download them?" IDYES vs2013true IDNO vs2013false
 		vs2013true:
-			ExecShell "open" "https://obsproject.com/visual-studio-2013-runtimes"
+			File "vcredist_x86.exe"
+			ExecWait "$INSTDIR\Prerequisites\vcredist_x86.exe"
 		vs2013false:
 		Quit
 	vs2013OK1:
 	ClearErrors
 
-	; 64 bit Visual Studio 2013 runtime check
+	
 	${if} ${RunningX64}
-		SetOutPath "$TEMP\OBS"
-		File check_for_64bit_visual_studio_2013_runtimes.exe
-		ExecWait "$TEMP\OBS\check_for_64bit_visual_studio_2013_runtimes.exe" $R0
-		Delete "$TEMP\OBS\check_for_64bit_visual_studio_2013_runtimes.exe"
-		RMDir "$TEMP\OBS"
-		IntCmp $R0 126 vs2013Missing vs2013OK2
-		vs2013OK2:
-		ClearErrors
+	ReadRegDword $R2 HKLM "SOFTWARE\Wow6432Node\Microsoft\VisualStudio\12.0\VC\Runtimes\x64" "Installed"
+	SetOutPath $INSTDIR\Prerequisites
+	IfErrors vs2013Missing64 vs2013OK2
+	vs2013Missing64:
+		MessageBox MB_YESNO|MB_ICONEXCLAMATION "Your system is missing runtime components that ${APPNAME} requires. Please make sure to install both vcredist_x64 and vcredist_x86. Would you like to download them?" IDYES vs201364true IDNO vs201364false
+		vs201364true:
+			File "vcredist_x64.exe"
+			ExecWait "$INSTDIR\Prerequisites\vcredist_x64.exe"
+		vs201364false:
+		Quit
+	vs2013OK2:
+	ClearErrors       
 	${endif}
-
+	
 	; DirectX Version Check
 	ClearErrors
 	GetDLLVersion "D3DCompiler_33.dll" $R0 $R1
@@ -183,25 +190,27 @@ Function PreReqCheck
 	ClearErrors
 
 	; Check previous instance
-
-	OBSInstallerUtils::IsProcessRunning "obs32.exe"
-	IntCmp $R0 1 0 notRunning1
+	InitPluginsDir
+	SetOutPath $PLUGINSDIR   
+	File OBSInstallerUtils.dll
+	System::Call 'OBSInstallerUtils::IsProcessRunning "obs32.exe" .R0'
+	IntCmp $0 1 0 notRunning1
 		MessageBox MB_OK|MB_ICONEXCLAMATION "${APPNAME} is already running. Please close it first before installing a new version." /SD IDOK
 		Quit
 	notRunning1:
 
 	${if} ${RunningX64}
-		OBSInstallerUtils::IsProcessRunning "obs64.exe"
-		IntCmp $R0 1 0 notRunning2
+		System::Call 'OBSInstallerUtils::IsProcessRunning "obs64.exe" .R0'
+		IntCmp $0 1 0 notRunning2
 			MessageBox MB_OK|MB_ICONEXCLAMATION "${APPNAME} is already running. Please close it first before installing a new version." /SD IDOK
 			Quit
 		notRunning2:
 	${endif}
 
-	OBSInstallerUtils::AddInUseFileCheck "$INSTDIR\data\obs-plugins\win-capture\graphics-hook32.dll"
-	OBSInstallerUtils::AddInUseFileCheck "$INSTDIR\data\obs-plugins\win-capture\graphics-hook64.dll"
-	OBSInstallerUtils::GetAppNameForInUseFiles
-	StrCmp $R0 "" gameCaptureNotRunning
+	System::Call 'OBSInstallerUtils::AddInUseFileCheck "$INSTDIR\data\obs-plugins\win-capture\graphics-hook32.dll" .R0'
+	System::Call 'OBSInstallerUtils::AddInUseFileCheck "$INSTDIR\data\obs-plugins\win-capture\graphics-hook64.dll" .R0'
+	System::Call 'OBSInstallerUtils::GetAppNameForInUseFiles .R0'
+	StrCmp $0 "" gameCaptureNotRunning
 		MessageBox MB_OK|MB_ICONEXCLAMATION "Game Capture is still in use by the following applications:$\r$\n$\r$\n$R0$\r$\nPlease close these applications before installing a new version of OBS." /SD IDOK
 		Quit
 	gameCaptureNotRunning:
@@ -232,8 +241,8 @@ Section "OBS Studio" SecCore
 
 	; Set Section Files and Shortcuts
 	SetOutPath "$INSTDIR"
-	OBSInstallerUtils::KillProcess "obs-plugins\32bit\cef-bootstrap.exe"
-	OBSInstallerUtils::KillProcess "obs-plugins\64bit\cef-bootstrap.exe"
+	System::Call 'OBSInstallerUtils::KillProcess "obs-plugins\32bit\cef-bootstrap.exe" .R0'
+	System::Call 'OBSInstallerUtils::KillProcess "obs-plugins\64bit\cef-bootstrap.exe" .R0'
 	File /r "new\core\data"
 	SetOutPath "$INSTDIR\bin"
 	File /r "new\core\bin\32bit"
@@ -294,11 +303,11 @@ SectionGroup /e "Plugins" SecPlugins
 		SetShellVarContext all
 
 		SetOutPath "$INSTDIR\obs-plugins"
-		OBSInstallerUtils::KillProcess "32bit\cef-bootstrap.exe"
+		System::Call 'OBSInstallerUtils::KillProcess "32bit\cef-bootstrap.exe" .R0'
 		File /r "new\obs-browser\obs-plugins\32bit"
 
 		${if} ${RunningX64}
-			OBSInstallerUtils::KillProcess "64bit\cef-bootstrap.exe"
+			System::Call 'OBSInstallerUtils::KillProcess "64bit\cef-bootstrap.exe" .R0'
 			File /r "new\obs-browser\obs-plugins\64bit"
 		${endif}
 

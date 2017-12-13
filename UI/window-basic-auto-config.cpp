@@ -286,7 +286,7 @@ bool AutoConfigStreamPage::validatePage()
 				QT_TO_UTF8(ui->service->currentText()));
 	}
 
-	OBSService service = obs_service_create(serverType, "temp_service",
+	OBSService service = obs_service_create("rtmp_custom", "temp_service",
 			service_settings, nullptr);
 	obs_service_release(service);
 
@@ -769,7 +769,7 @@ void AutoConfig::SaveStreamSettings()
 	obs_data_set_string(settings, "server", server.c_str());
 	obs_data_set_string(settings, "key", key.c_str());
 
-	OBSService newService = obs_service_create(service_id,
+	OBSService newService = obs_service_create("rtmp_custom",
 			"default_service", settings, hotkeyData);
 	obs_service_release(newService);
 
