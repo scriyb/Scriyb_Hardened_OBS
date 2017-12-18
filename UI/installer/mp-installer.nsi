@@ -47,7 +47,7 @@ RequestExecutionLevel admin
 !define MUI_PAGE_CUSTOMFUNCTION_LEAVE PreReqCheck
 
 !insertmacro MUI_PAGE_WELCOME
-!insertmacro MUI_PAGE_LICENSE "C:\Users\sragavendraganesh\obs-studio\UI\data\license\gplv2.txt"
+!insertmacro MUI_PAGE_LICENSE "new\core\data\obs-studio\license\gplv2.txt"
 !insertmacro MUI_PAGE_DIRECTORY
 !ifdef FULL
 	!insertmacro MUI_PAGE_COMPONENTS
@@ -109,7 +109,7 @@ Function PreReqCheck
 	vs2013Missing:
 		MessageBox MB_YESNO|MB_ICONEXCLAMATION "Your system is missing runtime components that ${APPNAME} requires. Please make sure to install both vcredist_x64 and vcredist_x86. Would you like to download them?" IDYES vs2013true IDNO vs2013false
 		vs2013true:
-			File "vcredist_x86.exe"
+			File "vc_redist.x86.exe"
 			ExecWait "$INSTDIR\Prerequisites\vcredist_x86.exe"
 		vs2013false:
 		Quit
@@ -124,7 +124,7 @@ Function PreReqCheck
 	vs2013Missing64:
 		MessageBox MB_YESNO|MB_ICONEXCLAMATION "Your system is missing runtime components that ${APPNAME} requires. Please make sure to install both vcredist_x64 and vcredist_x86. Would you like to download them?" IDYES vs201364true IDNO vs201364false
 		vs201364true:
-			File "vcredist_x64.exe"
+			File "vc_redist.x64.exe"
 			ExecWait "$INSTDIR\Prerequisites\vcredist_x64.exe"
 		vs201364false:
 		Quit

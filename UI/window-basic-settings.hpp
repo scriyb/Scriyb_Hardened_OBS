@@ -87,7 +87,7 @@ private:
 	std::unique_ptr<Ui::OBSBasicSettings> ui;
 
 	bool generalChanged = false;
-	bool stream1Changed = true;
+	bool stream1Changed = false;
 	bool outputsChanged = false;
 	bool audioChanged = false;
 	bool videoChanged = false;
