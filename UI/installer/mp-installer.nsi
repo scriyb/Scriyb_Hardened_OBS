@@ -89,13 +89,8 @@ Function PreReqCheck
 		strcmps $1 "HotFixID=KB971512" gotPatch
 			MessageBox MB_YESNO|MB_ICONEXCLAMATION "${APPNAME} requires the Windows Vista Platform Update. Would you like to download it?" IDYES putrue IDNO pufalse
 			putrue:
-				${If} ${RunningX64}
-					; 64 bit
-					ExecShell "open" "http://www.microsoft.com/en-us/download/details.aspx?id=4390"
-				${Else}
-					; 32 bit
-					ExecShell "open" "http://www.microsoft.com/en-us/download/details.aspx?id=3274"
-				${EndIf}
+				; 32 bit
+				ExecShell "open" "http://www.microsoft.com/en-us/download/details.aspx?id=3274"
 			pufalse:
 			Quit
 		gotPatch:
@@ -116,22 +111,6 @@ Function PreReqCheck
 	vs2013OK1:
 	ClearErrors
 
-	
-	${if} ${RunningX64}
-	ReadRegDword $R2 HKLM "SOFTWARE\Wow6432Node\Microsoft\VisualStudio\12.0\VC\Runtimes\x64" "Installed"
-	SetOutPath $INSTDIR\Prerequisites
-	IfErrors vs2013Missing64 vs2013OK2
-	vs2013Missing64:
-		MessageBox MB_YESNO|MB_ICONEXCLAMATION "Your system is missing runtime components that ${APPNAME} requires. Please make sure to install both vcredist_x64 and vcredist_x86. Would you like to download them?" IDYES vs201364true IDNO vs201364false
-		vs201364true:
-			File "vc_redist.x64.exe"
-			ExecWait "$INSTDIR\Prerequisites\vcredist_x64.exe"
-		vs201364false:
-		Quit
-	vs2013OK2:
-	ClearErrors       
-	${endif}
-	
 	; DirectX Version Check
 	ClearErrors
 	GetDLLVersion "D3DCompiler_33.dll" $R0 $R1
@@ -199,14 +178,6 @@ Function PreReqCheck
 		Quit
 	notRunning1:
 
-	${if} ${RunningX64}
-		System::Call 'OBSInstallerUtils::IsProcessRunning "obs32.exe" .R0'
-		IntCmp $0 1 0 notRunning2
-			MessageBox MB_OK|MB_ICONEXCLAMATION "${APPNAME} is already running. Please close it first before installing a new version." /SD IDOK
-			Quit
-		notRunning2:
-	${endif}
-
 	System::Call 'OBSInstallerUtils::AddInUseFileCheck "$INSTDIR\data\obs-plugins\win-capture\graphics-hook32.dll" .R0'
 	System::Call 'OBSInstallerUtils::AddInUseFileCheck "$INSTDIR\data\obs-plugins\win-capture\graphics-hook64.dll" .R0'
 	System::Call 'OBSInstallerUtils::GetAppNameForInUseFiles .R0'
@@ -221,11 +192,7 @@ Function filesInUse
 FunctionEnd
 
 Function LaunchOBS
-	${if} ${RunningX64}
-		Exec '"$WINDIR\explorer.exe" "$SMPROGRAMS\OBS Studio\OBS Studio (64bit).lnk"'
-	${else}
-		Exec '"$WINDIR\explorer.exe" "$SMPROGRAMS\OBS Studio\OBS Studio (32bit).lnk"'
-	${endif}
+	Exec '"$WINDIR\explorer.exe" "$SMPROGRAMS\OBS Studio\OBS Studio (32bit).lnk"'
 FunctionEnd
 
 Var outputErrors
@@ -249,13 +216,6 @@ Section "OBS Studio" SecCore
 	SetOutPath "$INSTDIR\obs-plugins"
 	File /r "new\core\obs-plugins\32bit"
 
-	${if} ${RunningX64}
-		SetOutPath "$INSTDIR\bin"
-		File /r "new\core\bin\64bit"
-		SetOutPath "$INSTDIR\obs-plugins"
-		File /r "new\core\obs-plugins\64bit"
-	${endif}
-
 	ClearErrors
 
 	IfErrors 0 +2
@@ -267,26 +227,13 @@ Section "OBS Studio" SecCore
 	Delete "$DESKTOP\OBS Multiplatform.lnk"
 	Delete "$SMPROGRAMS\OBS Multiplatform\OBS Multiplatform (32bit).lnk"
 	Delete "$SMPROGRAMS\OBS Multiplatform\Uninstall.lnk"
-	${if} ${RunningX64}
-		Delete "$SMPROGRAMS\OBS Multiplatform\OBS Multiplatform (64bit).lnk"
-	${endif}
 
-	${if} ${RunningX64}
-		SetOutPath "$INSTDIR\bin\64bit"
-		CreateShortCut "$DESKTOP\OBS Studio.lnk" "$INSTDIR\bin\64bit\obs32.exe"
-	${else}
-		SetOutPath "$INSTDIR\bin\32bit"
-		CreateShortCut "$DESKTOP\OBS Studio.lnk" "$INSTDIR\bin\32bit\obs32.exe"
-	${endif}
+	SetOutPath "$INSTDIR\bin\32bit"
+	CreateShortCut "$DESKTOP\OBS Studio.lnk" "$INSTDIR\bin\32bit\obs32.exe"
 	SetOutPath "$INSTDIR\bin\32bit"
 	CreateDirectory "$SMPROGRAMS\OBS Studio"
 	CreateShortCut "$SMPROGRAMS\OBS Studio\OBS Studio (32bit).lnk" "$INSTDIR\bin\32bit\obs32.exe"
 	CreateShortCut "$SMPROGRAMS\OBS Studio\Uninstall.lnk" "$INSTDIR\uninstall.exe"
-
-	${if} ${RunningX64}
-		SetOutPath "$INSTDIR\bin\64bit"
-		CreateShortCut "$SMPROGRAMS\OBS Studio\OBS Studio (64bit).lnk" "$INSTDIR\bin\64bit\obs32.exe"
-	${endif}
 
 	SetOutPath "$INSTDIR\bin\32bit"
 
@@ -306,11 +253,6 @@ SectionGroup /e "Plugins" SecPlugins
 		System::Call 'OBSInstallerUtils::KillProcess "32bit\cef-bootstrap.exe" .R0'
 		File /r "new\obs-browser\obs-plugins\32bit"
 
-		${if} ${RunningX64}
-			System::Call 'OBSInstallerUtils::KillProcess "64bit\cef-bootstrap.exe" .R0'
-			File /r "new\obs-browser\obs-plugins\64bit"
-		${endif}
-
 		SetOutPath "$INSTDIR\bin\32bit"
 	SectionEnd
 
@@ -322,10 +264,6 @@ SectionGroup /e "Plugins" SecPlugins
 
 		SetOutPath "$INSTDIR\obs-plugins"
 		File /r "new\realsense\obs-plugins\32bit"
-
-		${if} ${RunningX64}
-			File /r "new\realsense\obs-plugins\64bit"
-		${endif}
 
 		SetOutPath "$INSTDIR\data\obs-plugins"
 		File /r "new\realsense\data\obs-plugins\win-ivcam"
@@ -386,9 +324,6 @@ Section "un.obs-studio Program Files" UninstallSection1
 	Delete "$DESKTOP\OBS Studio.lnk"
 	Delete "$SMPROGRAMS\OBS Studio\OBS Studio (32bit).lnk"
 	Delete "$SMPROGRAMS\OBS Studio\Uninstall.lnk"
-	${if} ${RunningX64}
-		Delete "$SMPROGRAMS\OBS Studio\OBS Studio (64bit).lnk"
-	${endif}
 
 	IfFileExists "$INSTDIR\data\obs-plugins\win-ivcam\seg_service.exe" UnregisterSegService SkipUnreg
 	UnregisterSegService:
