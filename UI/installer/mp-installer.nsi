@@ -200,7 +200,7 @@ Function PreReqCheck
 	notRunning1:
 
 	${if} ${RunningX64}
-		System::Call 'OBSInstallerUtils::IsProcessRunning "obs64.exe" .R0'
+		System::Call 'OBSInstallerUtils::IsProcessRunning "obs32.exe" .R0'
 		IntCmp $0 1 0 notRunning2
 			MessageBox MB_OK|MB_ICONEXCLAMATION "${APPNAME} is already running. Please close it first before installing a new version." /SD IDOK
 			Quit
@@ -273,7 +273,7 @@ Section "OBS Studio" SecCore
 
 	${if} ${RunningX64}
 		SetOutPath "$INSTDIR\bin\64bit"
-		CreateShortCut "$DESKTOP\OBS Studio.lnk" "$INSTDIR\bin\64bit\obs64.exe"
+		CreateShortCut "$DESKTOP\OBS Studio.lnk" "$INSTDIR\bin\64bit\obs32.exe"
 	${else}
 		SetOutPath "$INSTDIR\bin\32bit"
 		CreateShortCut "$DESKTOP\OBS Studio.lnk" "$INSTDIR\bin\32bit\obs32.exe"
@@ -285,7 +285,7 @@ Section "OBS Studio" SecCore
 
 	${if} ${RunningX64}
 		SetOutPath "$INSTDIR\bin\64bit"
-		CreateShortCut "$SMPROGRAMS\OBS Studio\OBS Studio (64bit).lnk" "$INSTDIR\bin\64bit\obs64.exe"
+		CreateShortCut "$SMPROGRAMS\OBS Studio\OBS Studio (64bit).lnk" "$INSTDIR\bin\64bit\obs32.exe"
 	${endif}
 
 	SetOutPath "$INSTDIR\bin\32bit"
