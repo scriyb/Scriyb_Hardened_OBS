@@ -1598,24 +1598,26 @@ void OBSBasic::OBSInit()
 		config_save_safe(App()->GlobalConfig(), "tmp", nullptr);
 	}
 
-	if (!first_run && !has_last_version && !Active()) {
-		QString msg;
-		msg = QTStr("Basic.FirstStartup.RunWizard");
-		msg += "\n\n";
-		msg += QTStr("Basic.FirstStartup.RunWizard.BetaWarning");
-
-		QMessageBox::StandardButton button =
-			OBSMessageBox::question(this, QTStr("Basic.AutoConfig"),
-					msg);
-
-		if (button == QMessageBox::Yes) {
-			on_autoConfigure_triggered();
-		} else {
-			msg = QTStr("Basic.FirstStartup.RunWizard.NoClicked");
-			OBSMessageBox::information(this,
-					QTStr("Basic.AutoConfig"), msg);
-		}
-	}
+	/* Commenting Auto Config Wizard as per request
+	* if (!first_run && !has_last_version && !Active()) {
+	*	QString msg;
+	*	msg = QTStr("Basic.FirstStartup.RunWizard");
+	*	msg += "\n\n";
+	*	msg += QTStr("Basic.FirstStartup.RunWizard.BetaWarning");
+	*
+	*	QMessageBox::StandardButton button =
+	*		OBSMessageBox::question(this, QTStr("Basic.AutoConfig"),
+	*				msg);
+	*
+	*	if (button == QMessageBox::Yes) {
+	*			on_autoConfigure_triggered();
+	*	} else {
+	*		msg = QTStr("Basic.FirstStartup.RunWizard.NoClicked");
+	*		OBSMessageBox::information(this,
+	*				QTStr("Basic.AutoConfig"), msg);
+	*	}
+	* }
+        */
 
 	if (config_get_bool(basicConfig, "General", "OpenStatsOnStartup"))
 		on_stats_triggered();
