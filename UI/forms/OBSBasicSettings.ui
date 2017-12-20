@@ -222,16 +222,6 @@
                      </property>
                     </spacer>
                    </item>
-                   <item row="2" column="1">
-                    <widget class="QCheckBox" name="enableAutoUpdates">
-                     <property name="text">
-                      <string>Basic.Settings.General.EnableAutoUpdates</string>
-                     </property>
-                     <property name="checked">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
                    <item row="3" column="1">
                     <widget class="QCheckBox" name="openStatsOnStartup">
                      <property name="text">

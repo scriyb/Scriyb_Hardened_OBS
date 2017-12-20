@@ -367,9 +367,6 @@ bool OBSApp::InitGlobalConfigDefaults()
 	config_set_default_uint(globalConfig, "General", "MaxLogs", 10);
 	config_set_default_string(globalConfig, "General", "ProcessPriority",
 			"Normal");
-	config_set_default_bool(globalConfig, "General", "EnableAutoUpdates",
-			true);
-
 #if _WIN32
 	config_set_default_string(globalConfig, "Video", "Renderer",
 			"Direct3D 11");

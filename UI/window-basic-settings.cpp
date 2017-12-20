@@ -296,7 +296,6 @@ OBSBasicSettings::OBSBasicSettings(QWidget *parent)
 
 	HookWidget(ui->language,             COMBO_CHANGED,  GENERAL_CHANGED);
 	HookWidget(ui->theme, 		     COMBO_CHANGED,  GENERAL_CHANGED);
-	HookWidget(ui->enableAutoUpdates,    CHECK_CHANGED,  GENERAL_CHANGED);
 	HookWidget(ui->openStatsOnStartup,   CHECK_CHANGED,  GENERAL_CHANGED);
 	HookWidget(ui->warnBeforeStreamStart,CHECK_CHANGED,  GENERAL_CHANGED);
 	HookWidget(ui->warnBeforeStreamStop, CHECK_CHANGED,  GENERAL_CHANGED);
@@ -441,9 +440,7 @@ OBSBasicSettings::OBSBasicSettings(QWidget *parent)
 	HookWidget(ui->enableLowLatencyMode, CHECK_CHANGED,  ADV_CHANGED);
 
 #if !defined(_WIN32) && !defined(__APPLE__) && !HAVE_PULSEAUDIO
-	delete ui->enableAutoUpdates;
 	delete ui->advAudioGroupBox;
-	ui->enableAutoUpdates = nullptr;
 	ui->advAudioGroupBox = nullptr;
 #endif
 
@@ -1003,9 +1000,6 @@ void OBSBasicSettings::LoadGeneralSettings()
 	LoadThemeList();
 
 #if defined(_WIN32) || defined(__APPLE__)
-	bool enableAutoUpdates = config_get_bool(GetGlobalConfig(),
-			"General", "EnableAutoUpdates");
-	ui->enableAutoUpdates->setChecked(enableAutoUpdates);
 #endif
 	bool openStatsOnStartup = config_get_bool(main->Config(),
 			"General", "OpenStatsOnStartup");
@@ -2563,10 +2557,6 @@ void OBSBasicSettings::SaveGeneralSettings()
 	}
 
 #if defined(_WIN32) || defined(__APPLE__)
-	if (WidgetChanged(ui->enableAutoUpdates))
-		config_set_bool(GetGlobalConfig(), "General",
-				"EnableAutoUpdates",
-				ui->enableAutoUpdates->isChecked());
 #endif
 	if (WidgetChanged(ui->openStatsOnStartup))
 		config_set_bool(main->Config(), "General",
