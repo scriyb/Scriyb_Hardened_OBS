@@ -412,6 +412,9 @@
             <height>16</height>
            </size>
           </property>
+          <property name="toolButtonStyle">
+           <enum>Qt::ToolButtonIconOnly</enum>
+          </property>
           <property name="floatable">
            <bool>false</bool>
           </property>
@@ -632,7 +635,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>230</width>
+          <width>232</width>
           <height>16</height>
          </rect>
         </property>
@@ -953,9 +956,6 @@
        <property name="text">
         <string>Basic.Main.StartStreaming</string>
        </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
       </widget>
      </item>
      <item>
@@ -978,18 +978,12 @@
        <property name="text">
         <string>Basic.Main.StartRecording</string>
        </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="modeSwitch">
        <property name="text">
         <string>Basic.TogglePreviewProgramMode</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -1588,6 +1582,23 @@
    <header>source-list-widget.hpp</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>scenes</tabstop>
+  <tabstop>scenesToolbar</tabstop>
+  <tabstop>sources</tabstop>
+  <tabstop>sourcesToolbar</tabstop>
+  <tabstop>mixerScrollArea</tabstop>
+  <tabstop>transitions</tabstop>
+  <tabstop>transitionAdd</tabstop>
+  <tabstop>transitionRemove</tabstop>
+  <tabstop>transitionProps</tabstop>
+  <tabstop>transitionDuration</tabstop>
+  <tabstop>streamButton</tabstop>
+  <tabstop>recordButton</tabstop>
+  <tabstop>modeSwitch</tabstop>
+  <tabstop>settingsButton</tabstop>
+  <tabstop>exitButton</tabstop>
+ </tabstops>
  <resources>
   <include location="obs.qrc"/>
  </resources>
