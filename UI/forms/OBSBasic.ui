@@ -45,6 +45,9 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="contextMenuPolicy">
          <enum>Qt::CustomContextMenu</enum>
         </property>
@@ -611,6 +614,9 @@
          <width>220</width>
          <height>0</height>
         </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
        </property>
        <property name="contextMenuPolicy">
         <enum>Qt::CustomContextMenu</enum>
@@ -1583,11 +1589,9 @@
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>preview</tabstop>
   <tabstop>scenes</tabstop>
-  <tabstop>scenesToolbar</tabstop>
   <tabstop>sources</tabstop>
-  <tabstop>sourcesToolbar</tabstop>
-  <tabstop>mixerScrollArea</tabstop>
   <tabstop>transitions</tabstop>
   <tabstop>transitionAdd</tabstop>
   <tabstop>transitionRemove</tabstop>
