@@ -29,6 +29,7 @@ VisibilityItemWidget::VisibilityItemWidget(obs_source_t *source_)
 
 	label = new QLabel(QT_UTF8(name));
 	label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+	setAccessibleName(QT_UTF8(name));
 
 	QHBoxLayout *itemLayout = new QHBoxLayout();
 	itemLayout->addWidget(vis);
@@ -72,6 +73,7 @@ VisibilityItemWidget::VisibilityItemWidget(obs_sceneitem_t *item_)
 
 	label = new QLabel(QT_UTF8(name));
 	label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+	setAccessibleName(QT_UTF8(name));
 
 #ifdef __APPLE__
 	vis->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -294,6 +296,10 @@ void SetupVisibilityItem(QListWidget *list, QListWidgetItem *item,
 
 	item->setSizeHint(baseWidget->sizeHint());
 	list->setItemWidget(item, baseWidget);
+
+	//HACK: Made visibility items visible to screen reader by putting invisible text in containing widget item
+	item->setText(baseWidget->accessibleName());
+	item->setTextColor(QColor(0, 0, 0, 0));
 }
 
 void SetupVisibilityItem(QListWidget *list, QListWidgetItem *item,
@@ -303,4 +309,8 @@ void SetupVisibilityItem(QListWidget *list, QListWidgetItem *item,
 
 	item->setSizeHint(baseWidget->sizeHint());
 	list->setItemWidget(item, baseWidget);
+	
+	//HACK: Made visibility items visible to screen reader by putting invisible text in containing widget item
+	item->setText(baseWidget->accessibleName());
+	item->setTextColor(QColor(0, 0, 0, 0));
 }

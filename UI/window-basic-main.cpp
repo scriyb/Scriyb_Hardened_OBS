@@ -2047,6 +2047,8 @@ void OBSBasic::UpdateSources(OBSScene scene)
 				UNUSED_PARAMETER(scene);
 				return true;
 			}, this);
+
+
 }
 
 void OBSBasic::InsertSceneItem(obs_sceneitem_t *item)

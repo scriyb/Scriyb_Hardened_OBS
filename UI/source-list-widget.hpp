@@ -10,7 +10,8 @@ class SourceListWidget : public QListWidget {
 	bool ignoreReorder = false;
 public:
 	inline SourceListWidget(QWidget *parent = nullptr)
-		: QListWidget(parent)
+		: QListWidget(parent),
+		emptyListItem(nullptr)
 	{
 	}
 
@@ -19,4 +20,9 @@ public:
 protected:
 	virtual void mouseDoubleClickEvent(QMouseEvent *event) override;
 	virtual void dropEvent(QDropEvent *event) override;
+
+	void paintEvent(QPaintEvent *e) override;
+
+private:
+	QListWidgetItem* emptyListItem;
 };

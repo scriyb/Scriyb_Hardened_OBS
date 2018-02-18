@@ -2,8 +2,10 @@
 
 #include <vector>
 
+#include "obs-app.hpp"
 #include "qt-wrappers.hpp"
 #include "source-list-widget.hpp"
+#include "qpainter.h"
 
 Q_DECLARE_METATYPE(OBSSceneItem);
 
@@ -43,4 +45,43 @@ void SourceListWidget::dropEvent(QDropEvent *event)
 	{
 		(*static_cast<UpdateOrderAtomically_t*>(data))(scene);
 	}, static_cast<void*>(&UpdateOrderAtomically));
+}
+
+void SourceListWidget::paintEvent(QPaintEvent *e) 
+{
+	QListView::paintEvent(e);
+	if (!model()) return;
+
+	//HACK: Always populate sources list with an item to make it more screen-reader friendly
+	if (model()->rowCount(rootIndex()) == 0)
+	{
+		if (!emptyListItem)
+		{
+			emptyListItem = new QListWidgetItem();
+			emptyListItem->setText(QTStr("Basic.Main.NoSources"));
+		}
+
+		addItem(emptyListItem);
+	}
+	else if(model()->rowCount(rootIndex()) >= 2)
+	{
+		for (int i = 0; i < count(); ++i)
+		{
+			if (item(i) == emptyListItem)
+			{
+				takeItem(i);
+				break;
+			}
+		}
+	}
+
+	//HACK: Make sure an item is always handled as selected (also for screen-reader friendliness)
+	setCurrentItem(currentItem());
+
+	//HACK: Make sure items have some sort of screen-reader accessible name
+	/*for (int i = 0; i < count(); ++i)
+	{
+		QString str;
+		item(i)->setText(str.sprintf("Source %d", i + 1));
+	}*/
 }
