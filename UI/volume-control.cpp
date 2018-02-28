@@ -199,6 +199,8 @@ VolControl::VolControl(OBSSource source_, bool showConfig)
 
 	slider->setStyle(new SliderAbsoluteSetStyle(slider->style()));
 
+	QWidget::setTabOrder(mute, config);
+
 	/* Call volume changed once to init the slider position and label */
 	VolumeChanged();
 }

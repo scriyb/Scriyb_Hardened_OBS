@@ -51,6 +51,9 @@ public:
 	VisibilityItemWidget(obs_sceneitem_t *item);
 	~VisibilityItemWidget();
 
+	VisibilityCheckBox* getVisibilityCheckbox() const { return vis; }
+	LockedCheckBox* getLockedCheckbox() const { return lock; }
+
 	void SetColor(const QColor &color, bool active, bool selected);
 };
 

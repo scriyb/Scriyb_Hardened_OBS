@@ -297,6 +297,9 @@ void SetupVisibilityItem(QListWidget *list, QListWidgetItem *item,
 	item->setSizeHint(baseWidget->sizeHint());
 	list->setItemWidget(item, baseWidget);
 
+	QWidget::setTabOrder(list, baseWidget->getVisibilityCheckbox());
+	QWidget::setTabOrder(baseWidget->getVisibilityCheckbox(), baseWidget->getLockedCheckbox());
+
 	//HACK: Made visibility items visible to screen reader by putting invisible text in containing widget item
 	item->setText(baseWidget->accessibleName());
 	item->setTextColor(QColor(0, 0, 0, 0));
@@ -309,6 +312,9 @@ void SetupVisibilityItem(QListWidget *list, QListWidgetItem *item,
 
 	item->setSizeHint(baseWidget->sizeHint());
 	list->setItemWidget(item, baseWidget);
+
+	QWidget::setTabOrder(list, baseWidget->getVisibilityCheckbox());
+	QWidget::setTabOrder(baseWidget->getVisibilityCheckbox(), baseWidget->getLockedCheckbox());
 	
 	//HACK: Made visibility items visible to screen reader by putting invisible text in containing widget item
 	item->setText(baseWidget->accessibleName());
