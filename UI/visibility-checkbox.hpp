@@ -8,10 +8,15 @@ class VisibilityCheckBox : public QCheckBox {
 
 	QPixmap checkedImage;
 	QPixmap uncheckedImage;
+	QPixmap checkedFocusedImage;
+	QPixmap uncheckedFocusedImage;
+
+	bool justLostFocus;
 
 public:
 	VisibilityCheckBox();
 
 protected:
-	void paintEvent(QPaintEvent *event) override;
+	virtual void paintEvent(QPaintEvent *event) override;
+	virtual void focusOutEvent(QFocusEvent *event) override;
 };
