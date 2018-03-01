@@ -1,17 +1,12 @@
 #include <QCheckBox>
 #include <QPixmap>
+#include "visibility-checkbox.hpp"
 
 class QPaintEvernt;
 
-class LockedCheckBox : public QCheckBox {
+class LockedCheckBox : public VisibilityCheckBox_Base {
 	Q_OBJECT
-
-	QPixmap lockedImage;
-	QPixmap unlockedImage;
 
 public:
 	LockedCheckBox();
-
-protected:
-	void paintEvent(QPaintEvent *event) override;
 };

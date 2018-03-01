@@ -5,17 +5,18 @@
 
 #include <util/c99defs.h>
 
-VisibilityCheckBox::VisibilityCheckBox() : QCheckBox()
+VisibilityCheckBox_Base::VisibilityCheckBox_Base(const QString& checkedImagePath, const QString& uncheckedImagePath, const QString& checkedFocusedImagePath, const QString& uncheckedFocusedImagePath) :
+	QCheckBox()
 {
 	checkedImage =
-		QPixmap::fromImage(QImage(":/res/images/visible_mask.png"));
+		QPixmap::fromImage(QImage(checkedImagePath));
 	uncheckedImage =
-		QPixmap::fromImage(QImage(":/res/images/invisible_mask.png"));
+		QPixmap::fromImage(QImage(uncheckedImagePath));
 	
 	checkedFocusedImage =
-		QPixmap::fromImage(QImage(":/res/images/visible_mask_focused.png"));
+		QPixmap::fromImage(QImage(checkedFocusedImagePath));
 	uncheckedFocusedImage =
-		QPixmap::fromImage(QImage(":/res/images/invisible_mask_focused.png"));
+		QPixmap::fromImage(QImage(uncheckedFocusedImagePath));
 
 	justLostFocus = false;
 
@@ -24,7 +25,7 @@ VisibilityCheckBox::VisibilityCheckBox() : QCheckBox()
 	setStyleSheet("outline: none;");
 }
 
-void VisibilityCheckBox::paintEvent(QPaintEvent *event)
+void VisibilityCheckBox_Base::paintEvent(QPaintEvent *event)
 {
 	UNUSED_PARAMETER(event);
 
@@ -49,9 +50,19 @@ void VisibilityCheckBox::paintEvent(QPaintEvent *event)
 			QPixmap::fromImage(image));
 }
 
-void VisibilityCheckBox::focusOutEvent(QFocusEvent *event)
+void VisibilityCheckBox_Base::focusOutEvent(QFocusEvent *event)
 {
 	QCheckBox::focusOutEvent(event);
 	justLostFocus = true;
 	repaint();
+}
+
+VisibilityCheckBox::VisibilityCheckBox() :
+	VisibilityCheckBox_Base(
+		":/res/images/visible_mask.png",
+		":/res/images/invisible_mask.png",
+		":/res/images/visible_mask_focused.png",
+		":/res/images/invisible_mask_focused.png"
+	)
+{
 }

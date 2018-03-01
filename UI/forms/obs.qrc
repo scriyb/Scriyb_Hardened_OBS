@@ -18,6 +18,8 @@
         <file>images/unlocked_mask.png</file>
         <file>images/invisible_mask_focused.png</file>
         <file>images/visible_mask_focused.png</file>
+        <file>images/locked_mask_focused.png</file>
+        <file>images/unlocked_mask_focused.png</file>
     </qresource>
     <qresource prefix="/settings">
         <file>images/settings/advanced.png</file>
