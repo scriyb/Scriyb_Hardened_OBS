@@ -102,13 +102,28 @@ Function PreReqCheck
 	IfErrors vs2013Missing vs2013OK1
 	SetOutPath $INSTDIR\Prerequisites
 	vs2013Missing:
-		MessageBox MB_YESNO|MB_ICONEXCLAMATION "Your system is missing runtime components that ${APPNAME} requires. Please make sure to install both vcredist_x64 and vcredist_x86. Would you like to download them?" IDYES vs2013true IDNO vs2013false
+		MessageBox MB_YESNO|MB_ICONEXCLAMATION "Your system is missing runtime components that ${APPNAME} requires. Please make sure to install vcredist_x86. Would you like to install it now?" IDYES vs2013true IDNO vs2013false
 		vs2013true:
-			File "vc_redist.x86.exe"
+			File "vcredist_x86.exe"
 			ExecWait "$INSTDIR\Prerequisites\vcredist_x86.exe"
 		vs2013false:
 		Quit
 	vs2013OK1:
+	ClearErrors
+
+	; 32 bit Visual Studio 2015 runtime check
+	ClearErrors
+	ReadRegDword $R1 HKLM "SOFTWARE\Wow6432Node\Microsoft\VisualStudio\14.0\VC\Runtimes\x86" "Installed"
+	IfErrors vs2015Missing vs2015OK1
+	SetOutPath $INSTDIR\Prerequisites
+	vs2015Missing:
+		MessageBox MB_YESNO|MB_ICONEXCLAMATION "Your system is missing runtime components that ${APPNAME} requires. Please make sure to install vcredist2015_x86. Would you like to install it now" IDYES vs2015true IDNO vs2015false
+		vs2015true:
+			File "vc_redist2015.x86.exe"
+			ExecWait "$INSTDIR\Prerequisites\vc_redist2015.x86.exe"
+		vs2015false:
+		Quit
+	vs2015OK1:
 	ClearErrors
 
 	; DirectX Version Check
