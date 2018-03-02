@@ -20,6 +20,8 @@ VisibilityItemWidget::VisibilityItemWidget(obs_source_t *source_)
 	bool enabled = obs_source_enabled(source);
 
 	vis = new VisibilityCheckBox();
+	vis->setAccessibleName(QTStr("SourceCheckbox.Visibility").arg(name));
+
 	vis->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
 	/* Fix for non-apple systems where the spacing would be too big */
 #ifndef __APPLE__
@@ -56,6 +58,8 @@ VisibilityItemWidget::VisibilityItemWidget(obs_sceneitem_t *item_)
 	obs_source_t *sceneSource = obs_scene_get_source(scene);
 
 	vis = new VisibilityCheckBox();
+	vis->setAccessibleName(QTStr("SourceCheckbox.Visibility").arg(name));
+
 	vis->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
 	/* Fix for non-apple systems where the spacing would be too big */
 #ifndef __APPLE__
@@ -64,6 +68,8 @@ VisibilityItemWidget::VisibilityItemWidget(obs_sceneitem_t *item_)
 	vis->setChecked(enabled);
 
 	lock = new LockedCheckBox();
+	lock->setAccessibleName(QTStr("SourceCheckbox.Lock").arg(name));
+
 	lock->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
 	/* Fix for non-apple systems where the spacing would be too big */
 #ifndef __APPLE__
