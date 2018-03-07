@@ -100,14 +100,14 @@ Function PreReqCheck
 	ClearErrors
 	ReadRegDword $R1 HKLM "SOFTWARE\Wow6432Node\Microsoft\VisualStudio\12.0\VC\Runtimes\x86" "Installed"
 	IfErrors vs2013Missing vs2013OK1
-	SetOutPath $INSTDIR\Prerequisites
 	vs2013Missing:
+		SetOutPath $INSTDIR\Prerequisites
 		MessageBox MB_YESNO|MB_ICONEXCLAMATION "Your system is missing runtime components that ${APPNAME} requires. Please make sure to install vcredist_x86. Would you like to install it now?" IDYES vs2013true IDNO vs2013false
 		vs2013true:
 			File "vcredist_x86.exe"
-			ExecWait "$INSTDIR\Prerequisites\vcredist_x86.exe"
+			ExecWait '"$INSTDIR\Prerequisites\vcredist_x86.exe" /q /norestart'
 		vs2013false:
-		Quit
+		; Quit
 	vs2013OK1:
 	ClearErrors
 
@@ -115,14 +115,14 @@ Function PreReqCheck
 	ClearErrors
 	ReadRegDword $R1 HKLM "SOFTWARE\Wow6432Node\Microsoft\VisualStudio\14.0\VC\Runtimes\x86" "Installed"
 	IfErrors vs2015Missing vs2015OK1
-	SetOutPath $INSTDIR\Prerequisites
 	vs2015Missing:
+		SetOutPath $INSTDIR\Prerequisites
 		MessageBox MB_YESNO|MB_ICONEXCLAMATION "Your system is missing runtime components that ${APPNAME} requires. Please make sure to install vcredist2015_x86. Would you like to install it now" IDYES vs2015true IDNO vs2015false
 		vs2015true:
-			File "vc_redist2015.x86.exe"
-			ExecWait "$INSTDIR\Prerequisites\vc_redist2015.x86.exe"
+			File "vc_redist2015_x86.exe"
+			ExecWait '"$INSTDIR\Prerequisites\vc_redist2015_x86.exe" /q /norestart'
 		vs2015false:
-		Quit
+		; Quit
 	vs2015OK1:
 	ClearErrors
 
@@ -175,11 +175,14 @@ Function PreReqCheck
 	GetDLLVersion "D3DCompiler_47.dll" $R0 $R1
 	IfErrors dxMissing47 dxOK
 	dxMissing47:
-	MessageBox MB_YESNO|MB_ICONEXCLAMATION "Your system is missing DirectX components that ${APPNAME} requires. Would you like to download them?" IDYES dxtrue IDNO dxfalse
+	SetOutPath $INSTDIR\Prerequisites
+	MessageBox MB_YESNO|MB_ICONEXCLAMATION "Your system is missing DirectX components that ${APPNAME} requires. Would you like to install them now?" IDYES dxtrue IDNO dxfalse
 	dxtrue:
-		ExecShell "open" "https://obsproject.com/go/dxwebsetup"
+		; ExecShell "open" "https://obsproject.com/go/dxwebsetup"
+		File "dxwebsetup.exe"
+		ExecWait '"$INSTDIR\Prerequisites\dxwebsetup.exe" /Q'
 	dxfalse:
-	Quit
+	;Quit
 	dxOK:
 	ClearErrors
 
