@@ -67,6 +67,9 @@
 #include <QScreen>
 #include <QWindow>
 
+#include <openssl/ossl_typ.h>
+#include <openssl/crypto.h>
+
 using namespace std;
 
 namespace {
@@ -5681,6 +5684,13 @@ void OBSBasic::UpdateTitleBar()
 	name << App()->GetVersionString();
 	if (App()->IsPortableMode())
 		name << " - Portable Mode";
+
+	int FipsMode = FIPS_mode();
+	if (FipsMode)
+	{
+		name << " [FIPS ENABLED] ";
+	}
+	
 
 	name << " - " << Str("TitleBar.Profile") << ": " << profile;
 	name << " - " << Str("TitleBar.Scenes") << ": " << sceneCollection;

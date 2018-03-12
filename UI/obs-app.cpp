@@ -46,6 +46,12 @@
 
 #include <curl/curl.h>
 
+#include <openssl/ossl_typ.h>
+#include <openssl/fips.h>
+#include <openssl/crypto.h>
+#include <openssl/err.h>
+#define ENABLE_FIPS true
+
 #ifdef _WIN32
 #include <windows.h>
 #else
@@ -1933,6 +1939,21 @@ int main(int argc, char *argv[])
 			os_file_exists(BASE_PATH "/obs_portable_mode") ||
 			os_file_exists(BASE_PATH "/portable_mode.txt") ||
 			os_file_exists(BASE_PATH "/obs_portable_mode.txt");
+	}
+#endif
+
+#if ENABLE_FIPS
+	{
+		ERR_load_FIPS_strings();
+		//int mode = FIPS_mode(), ret = 0;
+		int ret = FIPS_mode_set(1 /*on*/);
+		if (1 != ret)
+		{
+			unsigned long err = ERR_get_error();
+			char buf[1024];
+			ERR_error_string(err, buf);
+			std::cout << "FIPS_mode_set failed: " << err;
+		}
 	}
 #endif
 
