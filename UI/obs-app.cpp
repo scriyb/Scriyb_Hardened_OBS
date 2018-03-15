@@ -1944,7 +1944,7 @@ int main(int argc, char *argv[])
 
 #if ENABLE_FIPS
 	{
-		ERR_load_FIPS_strings();
+		//ERR_load_FIPS_strings();
 		//int mode = FIPS_mode(), ret = 0;
 		int ret = FIPS_mode_set(1 /*on*/);
 		if (1 != ret)
